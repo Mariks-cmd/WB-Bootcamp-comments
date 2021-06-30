@@ -6,12 +6,14 @@
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 
+    include 'DB.php';
+    $db = new DB();
 
-    include 'Storage.php';
-    $storage = new Storage();
+
+    $comment_obj = $db->makeTableObject('comments');
 
     if (array_key_exists('id', $_GET)) {
-        $comment = $storage->getEntry((int) $_GET['id']);
+        $comment = $comment_obj->getEntry((int) $_GET['id']);
         if (!$comment) {
             header('Location: /comments/index.php');
             exit();
@@ -22,7 +24,7 @@
         array_key_exists('message', $_POST) &&
         array_key_exists('name', $_POST)
     ) {
-        $storage->updateEntry(
+        $comment_obj->updateEntry(
             $_POST['id'],
             [
                 'name' => $_POST['name'],

@@ -6,26 +6,24 @@
     ini_set('display_startup_errors', 1);
     error_reporting(E_ALL);
 
-    include "Storage.php";
-    $storage = new Storage();
-
     include "DB.php";
     $db = new DB();
-
-    $comments = &$db->getTable();
+    $comment_obj = $db->makeTableObject('comments');
+  
 
     if (array_key_exists('remove', $_GET)) {
-        $storage->remove($_GET['remove']);
+        $comment_obj->remove($_GET['remove']);
     }
     elseif (
         array_key_exists('message', $_POST) &&
         array_key_exists('name', $_POST)
     ) {
-        $db->addEntry([
+        $comment_obj->addEntry([
             'name' => $_POST['name'],
             'message' => $_POST['message']
         ]);
     }
+    $comments = &$comment_obj->getTable();
 
 ?>
 
@@ -46,6 +44,7 @@
     </form>
 
     <div class="comments__entries">
+        <?php ksort($comments); ?>
         <?php foreach ($comments as $id => $comment): ?>
            <div class="comment" data-id="<?= $id; ?>">
                 <?php $d = new DateTime(@$comment['time']); ?>
