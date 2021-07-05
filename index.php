@@ -33,12 +33,12 @@
     <form class="comments__form" action="/comments/" method="post">
         <div class="form_block">
             <label for="name">Name</label>
-            <input type="text" name="name" id="name">
+            <input type="text" name="name" id="name" placeholder="Enter your name">
         </div>
 
         <div class="form_block">
             <label for="message">Message</label>
-            <textarea name="message" id="message" rows="7"></textarea>
+            <textarea name="message" id="message" rows="7" placeholder="Enter your message"></textarea>
         </div>
         <button type="submit">Submit</button>
     </form>
